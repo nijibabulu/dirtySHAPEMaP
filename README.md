@@ -11,6 +11,7 @@ The expected genome sequence was shared via benchling [here](https://benchling.c
 ## Pipeline
 
 0. Setup
+
 ```
 mkdir -p work/00_fastq
 cp -r /ifs/data/as6282_gp/share/raw_ngs/20230705-mermade-ssRNA-input/A* work/00_fastq
@@ -19,6 +20,7 @@ cp -r /ifs/data/as6282_gp/share/raw_ngs/20230705-mermade-ssRNA-input/A* work/00_
 Note there are two levels of files here. We are ignoring the `trash reads` directory.
 
 1. Link
+
 The naming convention chosen was as follows: `[LIBNAME]-[LIBVERSION]-[LANE]-[DIRECTION]`. `LIBNAME` indicates our intiial template, `LIBVERSION` is the experiment ID, `LANE` is the lane and `DIRECTION` is one of either `f` or `r` to indicate its direction.
 ```
 mkdir -p work/01_link
@@ -33,6 +35,7 @@ ln -s $(realpath work/00_fastq/A3489_L004-ds.1817babf9f5848deb6390825177c9395/SL
 ```
 
 2. Initial QC
+
 ```
 qlogin -l mem=4G,time=:60:
 cd /ifs/scratch/as6282_gp/rpz2103/dirtySHAPEMaP
@@ -44,6 +47,7 @@ multiqc -o work/02_rawqc work/02_rawqc
 Inspection of the multifastqc looks as expected.
 
 3. Concatenate fastq files
+
 ```
 mkdir -p work/03_cat
 zcat work/01_link/lib_y7oDUzWh-01-0?-f.fastq.gz | gzip -c > work/03_cat/lib_y7oDUzWh-01-f.fastq.gz
@@ -51,6 +55,7 @@ zcat work/01_link/lib_y7oDUzWh-01-0?-r.fastq.gz | gzip -c > work/03_cat/lib_y7oD
 ```
 
 4. Merge read files using FLASH(/PEAR)
+
 FASTQ reads are paired and the insert sequence extends beyond the anticipated read size of 75 bp. Therefore we need to reliably merge the reads and choose a consensus base in the case of conflicts (ideally based on quality scores to break ties). Two methods exist that appear reliable and recommended. [PEAR](https://www.h-its.org/software/pear-paired-end-read-merger/) appears to be the most popular, however the website is currently down. For now we use [FLASH](http://ccb.jhu.edu/software/FLASH/), which seems to have a reasonable  algorithm documented [here]((http://ccb.jhu.edu/software/FLASH/FLASH-reprint.pdf).
 
 ```
@@ -75,11 +80,13 @@ The histogram shows a strong peak at 95 base pairs as expected.
 
        
 5. PEAR
+
 ```
 mkdir -p work/05_pear # reserved for future.
 ```
 
 6. Generate sequence logo
+
 We take a simplified approach to the alignment since it is a very large set of sequences and constrain to only 95 base-paired sequences:
 ```
 mkdir -p work/06_logo
