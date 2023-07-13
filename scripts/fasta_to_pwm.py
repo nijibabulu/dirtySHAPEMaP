@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 
 import sys
-import tdqm
 import click
 from Bio import SeqIO
 import numpy as np
@@ -17,7 +16,6 @@ def pwm_generate(verbose, fasta):
     pwm = np.zeros((pwm_len, 4))
     if(verbose):
         print("Sequence length: {}".format(pwm_len), file=sys.stderr)
-        pb = tdqm.tqdm(total=pwm_len, file=sys.stderr)
     for record in SeqIO.parse(fasta, "fasta"):
         for i, base in enumerate(record.seq):
             if base == "A":

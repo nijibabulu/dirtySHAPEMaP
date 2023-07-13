@@ -138,7 +138,20 @@ grep '^[ACGT]\{95,95\}$' work/04_flash/lib_y7oDUzWh-01.extendedFrags.fastq | awk
 
 Now we generate a PWM from the sequences (this takes long):
 ```
-python3 scripts/fasta_to_pwm.py work/06_logo/lib_y7oDUzWh-01.95seqs.fa > work/06_logo/lib_y7oDUzWh-01.95seqs.counts
+python3 scripts/fasta_to_pwm.py work/06_logo/lib_y7oDUzWh-01.95seqs.fa > results/lib_y7oDUzWh-01/lib_y7oDUzWh-01.95seqs.counts
+python3 scripts/fasta_to_pwm.py work/06_logo/lib_y7oDUzWh-02.95seqs.fa > results/lib_y7oDUzWh-02/lib_y7oDUzWh-02.95seqs.counts
 ```
 
 Now we make the plots with `scripts/seq_logo.R`.
+
+Count the edit distances between each of the sequences of length 95:
+
+```
+python3 scripts/count_edit_dists.py data/lib_y7oDUzWh/full.fa work/06_logo/lib_y7oDUzWh-01.95seqs.fa > results/lib_y7oDUzWh-01/95seqs.dists
+python3 scripts/count_edit_dists.py data/lib_y7oDUzWh/full.fa work/06_logo/lib_y7oDUzWh-02.95seqs.fa > results/lib_y7oDUzWh-02/95seqs.dists 
+
+python3 scripts/count_edit_dists.py -s 18 -e 77  data/lib_y7oDUzWh/full.fa work/06_logo/lib_y7oDUzWh-01.95seqs.fa > results/lib_y7oDUzWh-01/95seqs.insert.dists 
+python3 scripts/count_edit_dists.py -s 18 -e 77  data/lib_y7oDUzWh/full.fa work/06_logo/lib_y7oDUzWh-02.95seqs.fa > results/lib_y7oDUzWh-02/95seqs.insert.dists 
+```
+
+We can plot these distances with `scripts/edit_dists.R`
