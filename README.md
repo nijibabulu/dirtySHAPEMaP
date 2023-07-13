@@ -134,11 +134,13 @@ We take a simplified approach to the alignment since it is a very large set of s
 ```
 mkdir -p work/06_logo
 grep '^[ACGT]\{95,95\}$' work/04_flash/lib_y7oDUzWh-01.extendedFrags.fastq | awk '{print ">"NR"\n"$0}' > work/06_logo/lib_y7oDUzWh-01.95seqs.fa
+grep '^[ACGT]\{95,95\}$' work/04_flash/lib_y7oDUzWh-02.extendedFrags.fastq | awk '{print ">"NR"\n"$0}' > work/06_logo/lib_y7oDUzWh-02.95seqs.fa
 ```
 
 Now we generate a PWM from the sequences (this takes long):
 ```
 python3 scripts/fasta_to_pwm.py work/06_logo/lib_y7oDUzWh-01.95seqs.fa > work/06_logo/lib_y7oDUzWh-01.95seqs.counts
+python3 scripts/fasta_to_pwm.py work/06_logo/lib_y7oDUzWh-02.95seqs.fa > work/06_logo/lib_y7oDUzWh-02.95seqs.counts
 ```
 
 Now we make the plots with `scripts/seq_logo.R`.
