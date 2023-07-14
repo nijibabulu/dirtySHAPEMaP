@@ -161,15 +161,17 @@ awk '{if(NR % 4 == 2) { print length }}' work/05_pear/lib_y7oDUzWh-02.fastq.asse
 The specificity of flash is maybe slightly higher than PEAR, since inserts of the correct length are a slightly higher percentage of the total:
 
 ```
-FLASH: 0.776752
-PEAR:  0.773741
+       SPEC     COUNT    SENS
+FLASH: 0.776752 15530691 0.7656517 
+PEAR:  0.773741 15583745 0.7682672
 ```
 
 These are the number within 95 +/- 1:
 
 ```
-FLASH: 0.9544524
-PEAR:  0.9513517
+       SPEC      COUNT    SENS
+FLASH: 0.9544524 19083704 0.9408126
+PEAR:  0.9513517 19160957 0.9446211
 ```
 
 The histogram seems to indicate short assemblies in PEAR. PEAR does not require a prior estimate of the insert length, however there are several additional settings that could be applied. My guess is that th situation will not greatly improve.
