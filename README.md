@@ -176,6 +176,8 @@ PEAR:  0.9513517 19160957 0.9446211
 
 The histogram seems to indicate short assemblies in PEAR. PEAR does not require a prior estimate of the insert length, however there are several additional settings that could be applied. My guess is that th situation will not greatly improve.
 
+Conclusion: I favor FLASH because 1. PEAR results trade sensitivity for specificity, and 2. FLASH explicitly models alignments after the known insert length whereas PEAR clearly violates a pretty obvious constraint by assembly inserts as small as 50 bp instead of discarding them.
+
 6. Generate sequence logo, count edit distances
 
 We take a simplified approach to the alignment since it is a very large set of sequences and constrain to only 95 base-paired sequences:
