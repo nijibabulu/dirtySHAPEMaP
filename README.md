@@ -155,8 +155,24 @@ PEAR does not generate a histogram so we make one ourselves:
 ```
 awk '{if(NR % 4 == 2) { print length }}' work/05_pear/lib_y7oDUzWh-02.fastq.assembled.fastq | \
     sort -n | uniq -c | \
-    awk '{print $2"\t"$1}' > work/05_pear/lib_y7oDUzWh-02.fastq.hist
+    awk '{print $2"\t"$1}' > work/05_pear/lib_y7oDUzWh-02_pear.hist
 ```
+
+The specificity of flash is maybe slightly higher than PEAR, since inserts of the correct length are a slightly higher percentage of the total:
+
+```
+FLASH: 0.776752
+PEAR:  0.773741
+```
+
+These are the number within 95 +/- 1:
+
+```
+FLASH: 0.9544524
+PEAR:  0.9513517
+```
+
+The histogram seems to indicate short assemblies in PEAR. PEAR does not require a prior estimate of the insert length, however there are several additional settings that could be applied. My guess is that th situation will not greatly improve.
 
 6. Generate sequence logo, count edit distances
 
