@@ -1,3 +1,5 @@
 work
 *.sw*
 .nfs*
+
+.DS_Store
