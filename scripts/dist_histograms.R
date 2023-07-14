@@ -26,4 +26,5 @@ generate_histograms <- function(base) {
                   width = 6, height = 8)
 }
 
+generate_histograms("lib_y7oDUzWh-01")
 generate_histograms("lib_y7oDUzWh-02")
