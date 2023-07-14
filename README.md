@@ -83,6 +83,7 @@ FASTQ reads are paired and the insert sequence extends beyond the anticipated re
 
 ```
 qlogin -l mem=4G,time=:60:
+cd /ifs/scratch/as6282_gp/rpz2103/dirtySHAPEMaP
 mkdir -p work/04_flash
 module load flash
 flash --read-len=75 --fragment-len=95 --fragment-len-stddev=2 \
@@ -105,6 +106,7 @@ v2
 
 ```
 qlogin -l mem=4G,time=:60:
+cd /ifs/scratch/as6282_gp/rpz2103/dirtySHAPEMaP
 mkdir -p work/04_flash
 module load flash
 flash --read-len=75 --fragment-len=95 --fragment-len-stddev=2 \
@@ -126,15 +128,44 @@ The output is:
 
 ```
 mkdir -p work/05_pear # reserved for future.
+qlogin -l mem=4G,time=:60:
+cd /ifs/scratch/as6282_gp/rpz2103/dirtySHAPEMaP
+module load pear
+pear  -f work/03_cat/lib_y7oDUzWh-02-f.fastq.gz  -r work/03_cat/lib_y7oDUzWh-02-r.fastq.gz -o work/05_pear/lib_y7oDUzWh-02.fastq | tee work/05_pear/pear.lib_y7oDUzWh-02.log
 ```
 
-6. Generate sequence logo
+Pear successfully assembles more fragments:
+
+```
+Assembled reads ...................: 20,140,772 / 20,284,277 (99.293%)
+Discarded reads ...................: 18 / 20,284,277 (0.000%)
+Not assembled reads ...............: 143,487 / 20,284,277 (0.707%)
+```
+
+and yields more sequences of 95 bases:
+
+```
+# grep -c '^>' work/06_logo/lib_y7oDUzWh-02.95seqs.fa work/06_logo/lib_y7oDUzWh-02.95seqs.pear.fa
+work/06_logo/lib_y7oDUzWh-02.95seqs.fa:15519050
+work/06_logo/lib_y7oDUzWh-02.95seqs.pear.fa:15572065
+```
+
+PEAR does not generate a histogram so we make one ourselves:
+
+```
+awk '{if(NR % 4 == 2) { print length }}' work/05_pear/lib_y7oDUzWh-02.fastq.assembled.fastq | \
+    sort -n | uniq -c | \
+    awk '{print $2"\t"$1}' > work/05_pear/lib_y7oDUzWh-02.fastq.hist
+```
+
+6. Generate sequence logo, count edit distances
 
 We take a simplified approach to the alignment since it is a very large set of sequences and constrain to only 95 base-paired sequences:
 ```
 mkdir -p work/06_logo
 grep '^[ACGT]\{95,95\}$' work/04_flash/lib_y7oDUzWh-01.extendedFrags.fastq | awk '{print ">"NR"\n"$0}' > work/06_logo/lib_y7oDUzWh-01.95seqs.fa
 grep '^[ACGT]\{95,95\}$' work/04_flash/lib_y7oDUzWh-02.extendedFrags.fastq | awk '{print ">"NR"\n"$0}' > work/06_logo/lib_y7oDUzWh-02.95seqs.fa
+grep '^[ACGT]\{95,95\}$' work/05_pear/lib_y7oDUzWh-02.fastq.assembled.fastq | awk '{print ">"NR"\n"$0}' > work/06_logo/lib_y7oDUzWh-02.95seqs.pear.fa
 ```
 
 Now we generate a PWM from the sequences (this takes long):
@@ -144,3 +175,5 @@ python3 scripts/fasta_to_pwm.py work/06_logo/lib_y7oDUzWh-02.95seqs.fa > work/06
 ```
 
 Now we make the plots with `scripts/seq_logo.R`.
+
+
