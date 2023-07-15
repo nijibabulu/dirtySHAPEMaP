@@ -3,7 +3,6 @@
 generate_histograms <- function(file) {
   base <- fs::path_file(file) |> fs::path_ext_remove()
   df <- readr::read_tsv(file, col_names = c("Length", "Count"))
-  return(base)
 
   linear_plot <-
     ggplot2::ggplot(df, ggplot2::aes(Length, Count)) +
@@ -23,6 +22,6 @@ generate_histograms <- function(file) {
 }
 
 
-generate_histograms("work/05_pear/lib_y7oDUzWh-02.hist")
+generate_histograms("work/05_pear/lib_y7oDUzWh-02_pear.hist")
 generate_histograms("work/04_flash/lib_y7oDUzWh-01.hist")
 generate_histograms("work/04_flash/lib_y7oDUzWh-02.hist")

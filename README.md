@@ -206,4 +206,4 @@ python3 scripts/count_edit_dists.py -s 18 -e 77  data/lib_y7oDUzWh/full.fa work/
 python3 scripts/count_edit_dists.py -s 18 -e 77  data/lib_y7oDUzWh/full.fa work/06_logo/lib_y7oDUzWh-02.95seqs.fa > results/lib_y7oDUzWh-02/95seqs.insert.dists 
 ```
 
-We can plot these distances with `scripts/edit_dists.R`
+We can plot these distances with `scripts/dist_histograms.R`
