@@ -15,9 +15,9 @@ generate_histograms <- function(file) {
     ggplot2::labs(title = glue::glue("{base} length histogram (log scale)"))
 
   fs::dir_create(fs::path("results", base))
-  ggplot2::ggsave(fs::path("results", base, "linear_histogram.png"), linear_plot,
+  ggplot2::ggsave(fs::path("results", base, "linear_histogram.pdf"), linear_plot,
                   width = 5, height = 5)
-  ggplot2::ggsave(fs::path("results", base, "log_histogram.png"), log_plot,
+  ggplot2::ggsave(fs::path("results", base, "log_histogram.pdf"), log_plot,
                   width = 5, height = 5)
 }
 
